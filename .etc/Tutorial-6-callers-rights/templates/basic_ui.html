@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Welcome to query service!</title>
+  </head>
+  <body>
+    <h1>Welcome to query service!</h1>
+    <form action="{{ url_for("ui") }}" method="post">
+      <label for="query">query:<label><br>
+      <input type="text" id="query" name="query" size="50"><br>
+    </form>
+    <h2>Query:</h2>
+    {{ query_input }}
+    <h2>Result (executed on behalf of ingress user):</h2>
+    {{ query_result_ingress_user }}
+    <h2>Result (executed as service user):</h2>
+    {{ query_result_service_user }}
+  </body>
+</html>
+

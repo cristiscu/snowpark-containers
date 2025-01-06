@@ -1,0 +1,8 @@
+python -m venv venv
+venv/scripts/activate
+pip install flask
+python service1.py
+http://127.0.0.1:8080/ui
+http://192.168.1.65:8080/ui
+CTRL+C
+deactivate

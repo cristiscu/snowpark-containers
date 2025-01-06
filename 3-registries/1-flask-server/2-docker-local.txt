@@ -1,0 +1,2 @@
+docker build --rm -t service1:local .
+docker run -it service1:local
