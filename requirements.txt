@@ -1,2 +1,3 @@
 streamlit
 flask
+snowflake-snowpark-python

@@ -1,11 +1,7 @@
 import os, sys, logging
 from flask import Flask, request, render_template, jsonify
 
-# ~business logic
-def to_fahrenheit(celsius):
-    return celsius * 9./5 + 32
-
-# logging services
+# (1) logging services
 def get_logger(logger_name):
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
@@ -19,26 +15,43 @@ def get_logger(logger_name):
 logger = get_logger('flask-service')
 app = Flask(__name__)
 
-# can use as service healthcheck (readiness probe)
-@app.route('/')
-def to_fahrenheit():
-	celsius = 20
-	return f"Fahrenheit(celsius): {to_fahrenheit(celsius)}"
+# (2) business logic --> could later use a storage volume
+def to_fahrenheit(celsius):
+    fahrenheit = int(celsius) * 9./5 + 32
+    try:
+        with open("logs/log.txt", "a") as f:
+            f.write(f"{celsius}: {fahrenheit}\n")
+    except Exception as e:
+        logger.warn(e.args[1])
+    return fahrenheit
 
-# (1) I/O data through UI
+# (3) can use as service healthcheck (readiness probe)
+@app.get('/')
+def hello():
+    celsius = 20
+    txt = f"Fahrenheit({celsius}): {to_fahrenheit(celsius)}"
+    logger.info(txt)
+    return txt
+
+# (4) I/O data through UI
 @app.route("/ui", methods=["GET", "POST"])
 def ui():
-    celsius = request.form.get("celsius")
+    if request.method != "POST":
+        return render_template("basic_ui.html")
+
+    celsius = request.form.get("input")
     logger.info(f'Received from UI: {celsius}')
     return render_template("basic_ui.html",
+        celsius=celsius,
         fahrenheit=to_fahrenheit(celsius))
 
-# (2) I/O data through JSON: { "data": [[row_index, val1, ...], ...]}
-@app.get('/service')
+# (5) I/O data through JSON: { "data": [[row_index, val1, ...], ...]}
+@app.post('/service')
 def service():
-    data_in = request.get_json()
+    data_in = request.json
     if 'data' not in data_in:
         logger.error(f'Bad data format: {data_in}')
+        return {}
     
     logger.debug(f'Received: {data_in}')
     data_out = [[row[0], to_fahrenheit(row[1])] for row in data_in['data']]
@@ -47,7 +60,7 @@ def service():
     return ret
 
 if __name__ == '__main__':
-    # (3) I/O data as environment variables
+    # (6) I/O data as environment variables
     SERVICE_HOST = os.getenv('SERVER_HOST', '0.0.0.0')
     SERVICE_PORT = os.getenv('SERVER_PORT', 8000)
     app.run(host=SERVICE_HOST, port=SERVICE_PORT, debug=True)
