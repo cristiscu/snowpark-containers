@@ -1,5 +1,3 @@
-# deploy also as a Streamlit App (w/ implicit session)
-
 import os
 import streamlit as st
 from snowflake.snowpark import Session
@@ -9,6 +7,11 @@ session = Session.builder.configs({
 	"user": os.getenv("SNOWFLAKE_USER"),
 	"password": os.getenv("SNOWFLAKE_PASSWORD")
 }).create()
+
+# remove all previous code and uncomment code below when deployed as a Streamlit App
+# import streamlit as st
+# from snowflake.snowpark.context import get_active_session
+# session = get_active_session()
 
 database = session.get_current_database()
 schema = session.get_current_schema()
