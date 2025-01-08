@@ -1,3 +1,5 @@
+# very simple Flask web app (REST API!)
+
 from flask import Flask
 app = Flask(__name__)
 

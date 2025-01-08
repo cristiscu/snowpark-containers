@@ -34,6 +34,12 @@ def hello():
     logger.info(txt)
     return txt
 
+# dump call history from file
+@app.get('/history')
+def dump():
+    with open("logs/log.txt", "r") as f:
+        return f.read(f)
+
 # (4) I/O data through UI
 @app.route("/ui", methods=["GET", "POST"])
 def ui():
@@ -63,8 +69,8 @@ def service():
     return response
 
 # { "data": [[0, 20]] } --> { "data": [[0, 68]] }
-@app.get('/service-test')
-def service_test():
+@app.get('/client')
+def client():
     response = requests.post(
         f'{request.host_url}service',
         json={ "data": [[0, "20"]] })

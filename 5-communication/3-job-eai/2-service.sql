@@ -8,7 +8,8 @@ show images in image repository repo;
 -- =========================================================
 -- (1) create EAI for egress HTTP/HTTPS calls to google.com
 CREATE OR REPLACE NETWORK RULE google_search_rule
-    TYPE = HOST_PORT MODE = EGRESS
+    TYPE = HOST_PORT
+    MODE = EGRESS
     VALUE_LIST = ('google.com:80', 'google.com:443');
 
 CREATE EXTERNAL ACCESS INTEGRATION google_search_integration
