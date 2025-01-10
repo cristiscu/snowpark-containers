@@ -1,0 +1,11 @@
+spec:
+  containers:
+  - name: service1c
+    image: /test/public/repo/service1:latest
+    env:
+    - VAR1: val1
+    - VAR2: val2
+  endpoints:
+  - name: ep1
+    port: 8000
+    public: true

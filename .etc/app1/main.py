@@ -1,4 +1,4 @@
-import os, sys, logging
+import os, sys, logging, requests
 from flask import Flask, request, render_template, jsonify
 
 # (1) logging services
@@ -17,13 +17,14 @@ app = Flask(__name__)
 
 # (2) business logic --> could later use a storage volume
 def to_fahrenheit(celsius):
-    fahrenheit = int(celsius) * 9./5 + 32
     try:
+        fahrenheit = int(celsius) * 9./5 + 32
         with open("logs/log.txt", "a") as f:
             f.write(f"{celsius}: {fahrenheit}\n")
+        return fahrenheit
     except Exception as e:
-        logger.warn(e.args[1])
-    return fahrenheit
+        logger.warning(e.args[0])
+        return -1
 
 # (3) can use as service healthcheck (readiness probe)
 @app.get('/')
@@ -58,6 +59,14 @@ def service():
     ret = jsonify({'data': data_out})
     logger.debug(f'Returned: {ret}')
     return ret
+
+# { "data": [[0, 20]] } --> { "data": [[0, 68]] }
+@app.get('/client')
+def client():
+    response = requests.post(
+        f'{request.host_url}service',
+        json={ "data": [[0, "20"]] })
+    return response.json()
 
 if __name__ == '__main__':
     # (6) I/O data as environment variables

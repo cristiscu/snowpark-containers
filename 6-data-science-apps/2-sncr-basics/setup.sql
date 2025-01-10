@@ -16,14 +16,16 @@ show compute pools;
 
 -- existing: SYSTEM_COMPUTE_POOL_CPU w/ CPU_X64_XS
 CREATE COMPUTE POOL IF NOT EXISTS cpu5
-    MIN_NODES = 1 MAX_NODES = 5
+    MIN_NODES = 1
+    MAX_NODES = 5
     INSTANCE_FAMILY = CPU_X64_XS;
 ALTER COMPUTE POOL cpu5 SUSPEND;
 grant usage on compute pool cpu5 to role nbook_role;
 
 -- existing: SYSTEM_COMPUTE_POOL_GPU w/ GPU_NV_S
 CREATE COMPUTE POOL IF NOT EXISTS gpu5
-    MIN_NODES = 1 MAX_NODES = 5
+    MIN_NODES = 1
+    MAX_NODES = 5
     INSTANCE_FAMILY = GPU_NV_S;
 ALTER COMPUTE POOL gpu5 SUSPEND;
 grant usage on compute pool gpu5 to role nbook_role;
@@ -31,7 +33,8 @@ grant usage on compute pool gpu5 to role nbook_role;
 -- ===================================================
 -- (Phase 3)
 create network rule all_rule
-  TYPE = HOST_PORT MODE = EGRESS
+  TYPE = HOST_PORT
+  MODE = EGRESS
   VALUE_LIST = ('0.0.0.0:443', '0.0.0.0:80');   -- HTTP/HTTPS
 CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION all_eai
   ALLOWED_NETWORK_RULES = (all_rule)
@@ -39,7 +42,8 @@ CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION all_eai
 GRANT USAGE ON INTEGRATION all_eai TO ROLE nbook_role;
 
 CREATE OR REPLACE NETWORK RULE pip_rule
-  TYPE = HOST_PORT MODE = EGRESS
+  TYPE = HOST_PORT
+  MODE = EGRESS
   VALUE_LIST = ('pypi.org', 'pypi.python.org', 'pythonhosted.org',  'files.pythonhosted.org');
 CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION pip_eai
   ALLOWED_NETWORK_RULES = (pip_rule)

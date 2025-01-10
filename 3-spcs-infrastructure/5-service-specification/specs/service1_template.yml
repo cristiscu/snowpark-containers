@@ -1,0 +1,9 @@
+spec:
+  containers:
+  - name: service1c
+    image: /test/public/repo/service1:latest
+    env: {{env_values}}
+  endpoints:
+  - name: ep1
+    port: {{ port_number }}
+    public: true

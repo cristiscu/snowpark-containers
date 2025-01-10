@@ -1,4 +1,4 @@
-# very simple Flask web app (REST API!)
+# very simple Flask web app --> long-running service
 
 from flask import Flask
 app = Flask(__name__)
@@ -12,4 +12,4 @@ def hello():
 	return f"Fahrenheit({celsius}): {to_fahrenheit(celsius)}"
 
 if __name__ == '__main__':
-	app.run()
+	app.run(host="0.0.0.0", port=8000)
