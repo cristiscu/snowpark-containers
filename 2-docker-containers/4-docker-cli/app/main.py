@@ -22,7 +22,7 @@ def to_fahrenheit(celsius):
         with open("logs/log.txt", "a") as f:
             f.write(f"{celsius}: {fahrenheit}\n")
     except Exception as e:
-        logger.warn(e.args[1])
+        logger.warning(e.args[1])
     return fahrenheit
 
 # (3) can use as service healthcheck (readiness probe)

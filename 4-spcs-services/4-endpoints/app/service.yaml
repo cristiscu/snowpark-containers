@@ -1,0 +1,4 @@
+spec:
+  container:
+    - name: main
+      image: /test/public/repo/client:latest
