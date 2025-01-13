@@ -12,7 +12,7 @@ CREATE SERVICE sb1
 spec:
   containers:
   - name: echo
-    image: /test/public/repo/service1:latest
+    image: /test/public/repo/service1
     volumeMounts:
     - name: block-vol1
       mountPath: /opt/block/path
@@ -48,7 +48,7 @@ CREATE SERVICE sb2
 spec:
   containers:
   - name: echo
-    image: /test/public/repo/service1:latest
+    image: /test/public/repo/service1
     volumeMounts:
     - name: fromsnapshotvol
       mountPath: /opt/block/path

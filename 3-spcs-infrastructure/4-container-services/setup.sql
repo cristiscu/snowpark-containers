@@ -12,7 +12,7 @@ EXECUTE JOB SERVICE
         spec:
           containers:
           - name: job1c
-            image: /test/public/repo/job1:latest
+            image: /test/public/repo/job1
     $$
     NAME=job1;
 
@@ -33,12 +33,12 @@ EXECUTE JOB SERVICE
         spec:
           containers:
           - name: job1c
-            image: /test/public/repo/job1:latest
+            image: /test/public/repo/job1
     $$
     NAME=job1
     ASYNC=true;
 DESC SERVICE job1;
-CALL SYSTEM$GET_SERVICE_STATUS('public.job1')
+CALL SYSTEM$GET_SERVICE_STATUS('job1')
 SHOW SERVICES;
 
 SHOW SERVICE INSTANCES IN SERVICE job1;
@@ -57,10 +57,10 @@ CREATE SERVICE service1
         spec:
           containers:
           - name: service1c
-            image: /test/public/repo/service1:latest
+            image: /test/public/repo/service1
             env:
-            - VAR1: val1
-            - VAR2: val2
+              VAR1: val1
+              VAR2: val2
           endpoints:
           - name: ep1
             port: 8000

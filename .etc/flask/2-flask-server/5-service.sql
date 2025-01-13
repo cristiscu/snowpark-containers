@@ -9,7 +9,7 @@ CREATE SERVICE service1
     spec:
       containers:
       - name: echo
-        image: /test/public/repo1/service1:latest
+        image: /test/public/repo1/service1
         env:
           SERVER_PORT: 8000
           CHARACTER_NAME: Cristian

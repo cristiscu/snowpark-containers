@@ -1,4 +1,4 @@
 spec:
   containers:
   - name: job1c
-    image: /test/public/repo/job1:latest
+    image: /test/public/repo/job1

@@ -1,7 +1,7 @@
 spec:
   containers:
   - name: service1c
-    image: /test/public/repo/service1:latest
+    image: /test/public/repo/service1
     env: {{env_values}}
   endpoints:
   - name: ep1

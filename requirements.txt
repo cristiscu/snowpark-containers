@@ -1,3 +1,6 @@
 streamlit
 flask
+snowflake-connector-python
 snowflake-snowpark-python
+snowflake.core
+docker

@@ -26,14 +26,14 @@ CREATE SERVICE my_service
   IN COMPUTE POOL cpu
   FROM SPECIFICATION $$
     spec:
-    containers:
-    - name: echo
-        image: /test/public/repo/image:latest
-    endpoints:
-    - name: echoendpoint
+      containers:
+      - name: echo
+        image: /test/public/repo/image
+      endpoints:
+      - name: echoendpoint
         port: 8000
         public: true
-    $$
+  $$
   MIN_INSTANCES=1
   MAX_INSTANCES=1;
 grant OPERATE, MONITOR on service my_service to role ACCOUNTADMIN;

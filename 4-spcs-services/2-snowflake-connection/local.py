@@ -1,4 +1,4 @@
-# to run as a job service
+# connect to Snowflake locally
 
 import os, sys, logging, warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='snowflake.connector')

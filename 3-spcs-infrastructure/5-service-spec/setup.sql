@@ -8,7 +8,6 @@ PUT file://.\specs\job1_spec.yml @stage1/specs overwrite=true auto_compress=fals
 PUT file://.\specs\job1_template.yml @stage1/specs overwrite=true auto_compress=false;
 PUT file://.\specs\service1_spec.yml @stage1/specs overwrite=true auto_compress=false;
 PUT file://.\specs\service1_template.yml @stage1/specs overwrite=true auto_compress=false;
-PUT file://.\specs\service1_template2.yml @stage1/specs overwrite=true auto_compress=false;
 
 -- ======================================================
 -- for a job service
@@ -18,7 +17,7 @@ EXECUTE JOB SERVICE
         spec:
           containers:
           - name: job1c
-            image: /test/public/repo/job1:latest
+            image: /test/public/repo/job1
     $$
     NAME=job1;
 EXECUTE JOB SERVICE
@@ -32,14 +31,14 @@ EXECUTE JOB SERVICE
         spec:
           containers:
           - name: {{ container_name | default('job1c') }}
-            image: {{ image_name | default('/test/public/repo/job1:latest') }}    $$
-    USING (container_name =>'job1c', image_name=>'/test/public/repo/job1:latest')
+            image: {{ image_name | default('/test/public/repo/job1') }}    $$
+    USING (container_name =>'job1c', image_name=>'/test/public/repo/job1')
     NAME=job3;
 
 EXECUTE JOB SERVICE
     IN COMPUTE POOL cpu1
     FROM @stage1 SPECIFICATION_TEMPLATE_FILE='specs/job1_template.yml'
-    USING (container_name =>'job1c', image_name=>'/test/public/repo/job1:latest')
+    USING (container_name =>'job1c', image_name=>'/test/public/repo/job1')
     NAME=job4;
 
 -- ======================================================
@@ -50,10 +49,10 @@ CREATE SERVICE service1
         spec:
           containers:
           - name: service1c
-            image: /test/public/repo/service1:latest
+            image: /test/public/repo/service1
             env:
-            - VAR1: val1
-            - VAR2: val2
+              VAR1: val1
+              VAR2: val2
           endpoints:
           - name: ep1
             port: 8000
@@ -76,7 +75,7 @@ CREATE SERVICE service3
         spec:
           containers:
           - name: service1c
-            image: /test/public/repo/service1:latest
+            image: /test/public/repo/service1
             env: {{env_values}}
           endpoints:
           - name: ep1
